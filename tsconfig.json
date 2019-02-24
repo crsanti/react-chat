@@ -20,7 +20,7 @@
     "jsx": "preserve",
     "lib": [
       "dom",
-      "es2017"
+      "esnext"
     ],
     "listEmittedFiles": true,
     "listFiles": true,
@@ -41,6 +41,11 @@
     "noResolve": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin"
+      }
+    ],
     "preserveConstEnums": false,
     "pretty": true,
     "reactNamespace": "React",
