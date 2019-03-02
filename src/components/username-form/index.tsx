@@ -1,22 +1,34 @@
 import React from 'react';
 import { useValue } from '../customHooks';
 import { FadeIn } from '../fade-in';
-import { Button, Cover, Input, Modal, Title } from './username-form.components';
+import { Button, Cover, Input, Modal, Title, Form } from './username-form.components';
 
-export const UsernameForm: React.StatelessComponent = () => {
-  const { resetValue: emptyUsername, ...username } = useValue('');
+interface Props {
+  isVisible: boolean;
+  onSubmit(username: string): void;
+}
+
+export const UsernameForm: React.StatelessComponent<Props> = ({ onSubmit, isVisible }) => {
+  const { reset: emptyUsername, ...username } = useValue('');
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onSubmit(username.value.trim());
+    emptyUsername();
+  };
 
   return (
-    <Cover>
-      <FadeIn>
-        {(style) => (
+    <FadeIn active={isVisible}>
+      {(style) => (
+        <Cover>
           <Modal style={style}>
-            <Title>Please enter your name</Title>
-            <Input {...username} type="text" placeholder="Username" />
-            <Button>Start chatting</Button>
+            <Form onSubmit={handleSubmit}>
+              <Title>Please enter your name</Title>
+              <Input {...username} type="text" placeholder="Username" />
+              <Button>Start chatting</Button>
+            </Form>
           </Modal>
-        )}
-      </FadeIn>
-    </Cover>
+        </Cover>
+      )}
+    </FadeIn>
   );
 };

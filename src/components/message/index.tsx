@@ -1,15 +1,16 @@
 import React from 'react';
-import { Layout, Header, Text, UserName } from './message.components';
+import { ChatMessage } from '../../model';
+import { Header, Layout, Text, UserName } from './message.components';
 
 interface Props {
-  text: string;
+  message: ChatMessage;
 }
 
-export const Message: React.StatelessComponent<Props> = ({ text }) => {
+export const Message: React.StatelessComponent<Props> = ({ message: { text, username } }) => {
   return (
     <Layout>
       <Header>
-        <UserName>Matt Thompson</UserName>
+        <UserName>{username}</UserName>
       </Header>
       <Text>{text}</Text>
     </Layout>

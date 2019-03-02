@@ -19,10 +19,13 @@ export const Title = styled.h3`
   margin: 0 0 1.6rem;
 `;
 
-export const Modal = styled(Card)`
-  box-shadow: ${theme.components.modal.boxShadow};
+export const Form = styled.form`
   display: flex;
   flex-direction: column;
+`;
+
+export const Modal = styled(Card)`
+  box-shadow: ${theme.components.modal.boxShadow};
   flex-grow: 1;
   margin: 4.8rem;
   max-width: 400px;

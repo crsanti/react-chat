@@ -9,7 +9,7 @@ import { Layout, TextArea } from './message-input.components';
 
 const canSubmit = allPass([
   compose(equals('Enter'), prop('key')),
-  compose(not, Boolean, prop('shiftKey')),
+  compose(not, prop('shiftKey')),
   compose(not, isEmpty, getText),
 ]);
 
@@ -19,7 +19,7 @@ interface Props {
 }
 
 export const MessageInput: React.StatelessComponent<Props> = ({ addMessage, disabled }) => {
-  const { resetValue: emptyMessage, ...message } = useValue('');
+  const { reset: emptyMessage, ...message } = useValue('');
   const onKeyPress = (event: React.KeyboardEvent<HTMLElement>) => {
     if (canSubmit(event)) {
       event.preventDefault();

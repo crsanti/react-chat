@@ -20,11 +20,11 @@ export const Conversation: React.StatelessComponent<Props> = ({ messages }) => {
   return (
     <Layout ref={ref}>
       <List>
-        {messages.map(({ id: key, text }) => (
-          <FadeIn fromTop key={key}>
+        {messages.map((message) => (
+          <FadeIn fromTop key={message.id}>
             {(style) => (
               <AnimatedRow style={style}>
-                <Message text={text} />
+                <Message message={message} />
               </AnimatedRow>
             )}
           </FadeIn>
