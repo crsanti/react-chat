@@ -11,9 +11,9 @@ const styles = css`
   }
 
   body {
-    font-size: 1.4rem;
-    font-family: ${theme.fontFamily.primary};
     box-sizing: border-box;
+    font-family: ${theme.fontFamily.primary};
+    font-size: 1.4rem;
   }
 
   html, body, #app {

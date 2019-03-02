@@ -8,8 +8,8 @@ export const Layout = styled.div`
 
 export const List = styled.ul`
   list-style: none;
-  padding: 3.2rem 0 0;
   margin: 0;
+  padding: 3.2rem 0 0;
 `;
 
 const Row = styled.li`

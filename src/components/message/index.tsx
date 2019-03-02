@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Header, Text, UserName } from './message.components';
+import { Layout, Header, Text, UserName } from './message.components';
 
 interface Props {
   text: string;
@@ -7,11 +7,11 @@ interface Props {
 
 export const Message: React.StatelessComponent<Props> = ({ text }) => {
   return (
-    <Card>
+    <Layout>
       <Header>
         <UserName>Matt Thompson</UserName>
       </Header>
       <Text>{text}</Text>
-    </Card>
+    </Layout>
   );
 };

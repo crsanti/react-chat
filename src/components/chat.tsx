@@ -4,6 +4,7 @@ import { MessageInput } from './message-input';
 import { Conversation } from './conversation';
 import { ChatMessage } from '../model';
 import uuid from 'uuid/v4';
+import { UsernameForm } from './username-form';
 
 export const Chat: React.StatelessComponent = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -14,8 +15,9 @@ export const Chat: React.StatelessComponent = () => {
 
   return (
     <Layout>
+      <UsernameForm />
       <Conversation messages={messages} />
-      <MessageInput addMessage={addMessage} />
+      <MessageInput disabled={false} addMessage={addMessage} />
     </Layout>
   );
 };
