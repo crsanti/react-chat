@@ -12,7 +12,7 @@
     "emitBOM": false,
     "emitDecoratorMetadata": false,
     "experimentalDecorators": false,
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": false,
     "importHelpers": false,
     "inlineSourceMap": false,
     "inlineSources": false,
