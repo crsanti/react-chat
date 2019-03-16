@@ -1,8 +1,11 @@
-import styled from '@emotion/styled';
-import { Card } from '../card';
-import { theme } from '../../theme';
 import css from '@emotion/css';
+import styled from '@emotion/styled';
+import { UsernameStatus } from '../../model';
 import { textBox } from '../../styles';
+import { theme } from '../../theme';
+import { Card } from '../card';
+import { CircularProgress } from '@material-ui/core';
+import { CircularProgressProps } from '@material-ui/core/CircularProgress';
 
 export const Cover = styled.div`
   align-items: center;
@@ -22,6 +25,10 @@ export const Title = styled.h3`
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
+
+  ${() => ErrorMessage} + ${() => Button} {
+    margin: 2rem 0 1.2rem;
+  }
 `;
 
 export const Modal = styled(Card)`
@@ -33,7 +40,7 @@ export const Modal = styled(Card)`
 
 const block = css`
   display: block;
-  flex-grow: 1;
+  width: 100%;
 `;
 
 export const Input = styled.input`
@@ -43,7 +50,6 @@ export const Input = styled.input`
   border-style: solid;
   border-width: 0 0 0.1rem 0;
   box-sizing: border-box;
-  margin-bottom: 3.2rem;
   padding: 1.2rem 0 0.8rem;
   transition: border 200ms ${theme.animations.standardEasing};
 
@@ -52,14 +58,46 @@ export const Input = styled.input`
   }
 `;
 
-export const Button = styled.button`
+export const ErrorMessage = styled.small`
+  margin: 0.8rem 0 0;
+  min-height: 1.2rem;
+  color: ${theme.colors.text.error};
+`;
+
+const sendingStyles = css`
+  width: 4rem;
+`;
+
+const pristineStyles = css`
   ${block}
+  &:disabled{
+    opacity: 0.5;
+  }
+`;
+
+export const Button = styled.button<{ status: UsernameStatus, username: string }>`
   background-image: linear-gradient(${theme.colors.gradients.primary.top} ${10 / 3}%, ${theme.colors.gradients.primary.bottom} 100%);
   border-color: transparent;
   border-radius: 4rem;
   color: ${theme.colors.text.primaryLight};
   cursor: pointer;
   font-weight: bold;
-  margin-bottom: 1.2rem;
-  padding: 1.2rem;
+  height: 4rem;
+  margin: 4rem 0 1.2rem;
+  padding: 0;
+  transition: width ${theme.animations.standardEasing} 400ms, opacity ${theme.animations.standardEasing} 200ms;
+  align-self: center;
+  overflow: hidden;
+  word-break: keep-all;
+  white-space: nowrap;
+  ${({ status }) => status === 'sending' ? sendingStyles : pristineStyles}
+`;
+
+const InnerSpinner: React.StatelessComponent<CircularProgressProps> = (props) => (
+  <CircularProgress classes={{ circle: 'circle' }} {...props} />
+);
+export const Spinner = styled(InnerSpinner)`
+  & .circle {
+    color: ${theme.colors.background.card};
+  }
 `;

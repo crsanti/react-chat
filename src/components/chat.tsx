@@ -9,12 +9,19 @@ import { UsernameForm } from './username-form';
 
 export const Chat: React.StatelessComponent = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [username, setUsername] = useState<string>('');
+  const [{ username, error, status }, setUsername] = useState<UsernameState>({ username: '', error: '', status: 'pristine' });
   const missingUsername = isEmpty(username);
   const addMessage = (text: string) => {
+  const addMessage = useCallback((text: string) => {
     setMessages([...messages, { id: uuid(), text, username }]);
-  };
+  }, [messages, username]);
 
+  const onSubmit = useCallback((newUsername: string) => {
+    setUsername({ username: newUsername, error: '', status: 'sending' });
+    setTimeout(() => {
+      setUsername({ username: newUsername, error: '', status: 'done' });
+    }, 2000);
+  }, []);
   return (
     <Layout>
       <UsernameForm isVisible={missingUsername} onSubmit={setUsername} />

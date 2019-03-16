@@ -2,11 +2,10 @@ import { compose } from 'ramda';
 import { useState } from 'react';
 import { getText } from './utils';
 
-export const useValue = (initialValue: string) => {
+export const useValue = (initialValue = '') => {
   const [value, setValue] = useState<string>(initialValue);
-
-  type Reset = (initialValue?: string) => void;
   const onChange = compose(setValue, getText);
+  const reset = (resetValue?: string) => setValue(resetValue || '');
 
-  return { value, onChange, reset: setValue as Reset };
+  return { value, onChange, reset };
 };

@@ -9,6 +9,7 @@ export const theme = {
       primaryDark: 'rgb(82, 88, 96)',
       secondaryDark: 'rgba(0, 0, 0, 0.54)',
       disabled: 'rgb(189, 189, 189)',
+      error: 'rgb(255, 89, 75)',
     },
     background: {
       layout: 'rgb(243, 244, 249)',

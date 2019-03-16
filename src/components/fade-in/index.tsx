@@ -21,7 +21,7 @@ export const FadeIn: React.StatelessComponent<Props> = ({ children, fromTop = fa
   const hidden = getInitialTransition(fromTop);
 
   return (
-    <Transition enter={visible} from={hidden} items={active} leave={hidden}>
+    <Transition trail={800} enter={visible} from={hidden} items={active} leave={hidden}>
       {(isActive) => isActive && children}
     </Transition>
   );
