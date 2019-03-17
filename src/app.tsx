@@ -2,7 +2,7 @@ import React from 'react';
 import { Chat } from './components/chat';
 import { GlobalStyles } from './globalStyles';
 
-const App: React.StatelessComponent = () => {
+const App: React.FunctionComponent = () => {
   return (
     <>
       {GlobalStyles}

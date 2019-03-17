@@ -6,7 +6,7 @@ interface Props {
   message: ChatMessage;
 }
 
-export const Message: React.StatelessComponent<Props> = ({ message: { text, username } }) => {
+export const Message: React.FunctionComponent<Props> = ({ message: { text, username } }) => {
   return (
     <Layout>
       <Header>

@@ -1,55 +1,63 @@
 import isEmpty from 'ramda/es/isEmpty';
 import React, { useCallback } from 'react';
+import { useTransition } from 'react-spring';
 import { useValue } from '../../hooks';
-import { UsernameStatus } from '../../model';
-import { FadeIn } from '../fade-in';
-import { Button, Cover, ErrorMessage, Form, Input, Modal, Spinner, Title } from './username-form.components';
+import { isFailureUsernameState, isInitialState, isLoadingUsernameState, isSuccessUsernameState, UsernameState } from '../../model';
+import { Button, ErrorMessage, Form, FullPageCover, Input, Modal, Panel, Spinner, Title, TransitionWrapper } from './username-form.components';
 
 interface Props {
-  status: UsernameStatus;
-  error: string;
+  usernameState: UsernameState;
   onSubmit(username: string): void;
 }
 
-const success = (status: UsernameStatus, error: string) => isEmpty(error) && status === 'done';
-const renderButtonContent = (status: UsernameStatus, isSuccess: boolean) => {
-  if (isSuccess) {
-    return 'Welcome!';
-  }
-
-  if (status === 'sending') {
-    return <Spinner size={20} />;
-  }
-
-  return 'Start chatting';
-};
-
-export const UsernameForm: React.StatelessComponent<Props> = ({ onSubmit, status, error }) => {
+export const UsernameForm: React.FunctionComponent<Props> = ({ onSubmit, usernameState }) => {
   const { reset: emptyUsername, value: username, onChange } = useValue('');
   const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSubmit(username.trim());
     emptyUsername();
   }, [username]);
-  const isSuccess = success(status, error);
-  const isSending = status === 'sending';
+
+  const isLoading = isLoadingUsernameState(usernameState);
+  const isInitial = isInitialState(usernameState);
+  const isFailure = isFailureUsernameState(usernameState);
+  const transitions = useTransition(isSuccessUsernameState(usernameState), null, {
+    initial: { opacity: 1 },
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+    config: { duration: 5000 },
+  } as any);
+  const canShowButtonText = isInitial || isFailure;
 
   return (
-    <FadeIn active={!isSuccess}>
-      {(style) => (
-        <Cover>
-          <Modal style={style}>
-            <Form onSubmit={handleSubmit}>
-              <Title>Please enter your name</Title>
-              <Input value={username} onChange={onChange} disabled={isSending || isSuccess} placeholder="Username" />
-              {error && <ErrorMessage>{error}</ErrorMessage>}
-              <Button status={status} username={username} disabled={isSending || isEmpty(username)}>
-                {renderButtonContent(status, isSuccess)}
-              </Button>
-            </Form>
-          </Modal>
-        </Cover>
-      )}
-    </FadeIn>
+    <FullPageCover>
+      <Modal>
+        {
+          transitions.map(({ item: isSuccess, key, props }) =>
+            isSuccess ?
+              <TransitionWrapper key={key} style={props}>
+                <Panel key={key} style={props}>I'm also here!!</Panel>
+              </TransitionWrapper> :
+              (
+                <TransitionWrapper key={key} style={props}>
+                  <Form onSubmit={handleSubmit}>
+                    <Title>Please enter your name</Title>
+                    <Input value={username} onChange={onChange} disabled={isLoading} placeholder="Username" />
+                    {isFailureUsernameState(usernameState) &&
+                      <ErrorMessage>{usernameState.error}</ErrorMessage>}
+                    <Button fullWidth={!canShowButtonText} disabled={isLoading || isEmpty(username)}>
+                      {canShowButtonText ?
+                        'Start chatting' :
+                        <Spinner size={20} />
+                      }
+                    </Button>
+                  </Form>
+                </TransitionWrapper>
+              ),
+          )
+        }
+      </Modal>
+    </FullPageCover>
   );
 };

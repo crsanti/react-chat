@@ -8,7 +8,7 @@ interface Props {
   messages: ChatMessage[];
 }
 
-export const Conversation: React.StatelessComponent<Props> = ({ messages }) => {
+export const Conversation: React.FunctionComponent<Props> = ({ messages }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

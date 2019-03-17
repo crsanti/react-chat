@@ -18,7 +18,7 @@ interface Props {
   addMessage(text: string): void;
 }
 
-export const MessageInput: React.StatelessComponent<Props> = ({ addMessage, disabled }) => {
+export const MessageInput: React.FunctionComponent<Props> = ({ addMessage, disabled }) => {
   const { reset: emptyMessage, ...message } = useValue();
   const onKeyPress = useCallback((event: React.KeyboardEvent<HTMLElement>) => {
     if (canSubmit(event)) {
