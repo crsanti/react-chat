@@ -7,7 +7,7 @@ import { textBox } from '../../styles';
 import { theme } from '../../theme';
 import { Card } from '../card';
 
-export const FullPageCover = styled.div`
+export const FullPageCover = styled(animated.div)`
   align-items: center;
   bottom: 0;
   display: flex;
@@ -27,30 +27,28 @@ export const Modal = styled(Card)`
   flex-grow: 1;
   margin: 4.8rem;
   max-width: 400px;
-  position: relative;
   min-height: 16rem;
+  position: relative;
 `;
 
 export const TransitionWrapper = styled(animated.div)`
+  align-items: center;
   bottom: 0;
+  display: flex;
+  justify-content: center;
   left: 0;
   padding: inherit;
   position: absolute;
   right: 0;
   top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const Form = styled.form`
+  align-self: flex-start;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-
-  ${() => ErrorMessage} + ${() => Button} {
-    margin: 2rem 0 1.2rem;
-  }
+  height: 100%;
+  width: 100%;
 `;
 
 const block = css`
@@ -65,7 +63,7 @@ export const Input = styled.input`
   border-style: solid;
   border-width: 0 0 0.1rem 0;
   box-sizing: border-box;
-  padding: 1.2rem 0 0.8rem;
+  padding: 1.1rem 0 0.8rem;
   transition: border 200ms ${theme.animations.standardEasing};
 
   &:focus {
@@ -74,12 +72,13 @@ export const Input = styled.input`
 `;
 
 export const ErrorMessage = styled.small`
+  color: ${theme.colors.text.error};
   margin: 0.8rem 0 0;
   min-height: 1.2rem;
-  color: ${theme.colors.text.error};
 `;
 
-export const Button = styled.button<{ fullWidth: boolean }>`
+export const Button = styled.button<{fullWidth: boolean}>`
+  align-self: center;
   background-image: linear-gradient(${theme.colors.gradients.primary.top} ${10 / 3}%, ${theme.colors.gradients.primary.bottom} 100%);
   border-color: transparent;
   border-radius: 4rem;
@@ -87,22 +86,14 @@ export const Button = styled.button<{ fullWidth: boolean }>`
   cursor: pointer;
   font-weight: bold;
   height: 4rem;
-  margin: 4rem 0 0;
+  margin: auto 0 1.2rem;
+  overflow: hidden;
   padding: 0;
   transition: width ${theme.animations.standardEasing} 400ms, opacity ${theme.animations.standardEasing} 200ms;
-  align-self: center;
-  overflow: hidden;
-  word-break: keep-all;
   white-space: nowrap;
+  word-break: keep-all;
 
-  &:disabled {
-    opacity: 0.5;
-  }
-
-  ${({ fullWidth }) => fullWidth ?
-    css`width: 4rem;`
-    : block
-  }
+  ${({ fullWidth }) => fullWidth ? css`width: 4rem;` : block}
 `;
 
 const InnerSpinner: React.FunctionComponent<CircularProgressProps> = (props) => (
@@ -114,10 +105,6 @@ export const Spinner = styled(InnerSpinner)`
   }
 `;
 
-export const Panel = styled(animated.div)`
-  /* padding: inherit;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  position: absolute; */
+export const Welcome = styled(animated.div)`
+  font-size: 2.4rem;
 `;

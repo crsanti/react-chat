@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import uuid from 'uuid/v4';
-import { ChatMessage, isSuccessUsernameState, UsernameState, SuccessUsernameState } from '../model';
+import { ChatMessage, isSuccessUsernameState, SuccessUsernameState, UsernameState } from '../model';
 import { Layout } from './chat.components';
 import { Conversation } from './conversation';
 import { MessageInput } from './message-input';
-import { UsernameForm } from './username-form';
+import { UsernameModal } from './username-modal';
 
 export const Chat: React.FunctionComponent = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -29,7 +29,7 @@ export const Chat: React.FunctionComponent = () => {
 
   return (
     <Layout>
-      <UsernameForm usernameState={usernameState} onSubmit={onSubmit} />
+      <UsernameModal show={!isSuccess} usernameState={usernameState} onSubmit={onSubmit} />
       <Conversation messages={messages} />
       <MessageInput disabled={!isSuccess} addMessage={addMessage} />
     </Layout>
