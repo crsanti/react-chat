@@ -29,7 +29,7 @@ export const Chat: React.FunctionComponent = () => {
 
   return (
     <Layout>
-      <UsernameModal show={!isSuccess} usernameState={usernameState} onSubmit={onSubmit} />
+      <UsernameModal isOpen={!isSuccess} usernameState={usernameState} onSubmit={onSubmit} />
       <Conversation messages={messages} />
       <MessageInput disabled={!isSuccess} addMessage={addMessage} />
     </Layout>

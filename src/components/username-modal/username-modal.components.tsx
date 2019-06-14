@@ -1,7 +1,6 @@
 import css from '@emotion/css';
 import styled from '@emotion/styled';
-import { CircularProgress } from '@material-ui/core';
-import { CircularProgressProps } from '@material-ui/core/CircularProgress';
+import CircularProgress, { CircularProgressProps } from '@material-ui/core/CircularProgress';
 import { animated } from 'react-spring';
 import { textBox } from '../../styles';
 import { theme } from '../../theme';
@@ -22,16 +21,18 @@ export const Title = styled.h3`
   margin: 0 0 1.6rem;
 `;
 
-export const Modal = styled(Card)`
+const Modal = styled(Card)`
   box-shadow: ${theme.components.modal.boxShadow};
   flex-grow: 1;
   margin: 4.8rem;
-  max-width: 400px;
-  min-height: 16rem;
+  max-width: 40rem;
+  height: 16rem;
   position: relative;
 `;
 
-export const TransitionWrapper = styled(animated.div)`
+export const AnimatedModal = animated(Modal);
+
+export const TransitionWrapper = styled.div`
   align-items: center;
   bottom: 0;
   display: flex;
@@ -43,7 +44,10 @@ export const TransitionWrapper = styled(animated.div)`
   top: 0;
 `;
 
+export const AnimatedTransitionWrapper = animated(TransitionWrapper);
+
 export const Form = styled.form`
+  flex-grow: 1;
   align-self: flex-start;
   display: flex;
   flex-direction: column;
@@ -77,9 +81,9 @@ export const ErrorMessage = styled.small`
   min-height: 1.2rem;
 `;
 
-export const Button = styled.button<{fullWidth: boolean}>`
+export const Button = styled.button<{ fullWidth: boolean }>`
   align-self: center;
-  background-image: linear-gradient(${theme.colors.gradients.primary.top} ${10 / 3}%, ${theme.colors.gradients.primary.bottom} 100%);
+  background-image: linear-gradient(${theme.colors.gradients.primary.top} 33.3%, ${theme.colors.gradients.primary.bottom} 100%);
   border-color: transparent;
   border-radius: 4rem;
   color: ${theme.colors.text.primaryLight};

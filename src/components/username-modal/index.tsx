@@ -1,52 +1,74 @@
-import React from 'react';
-import { useTransition } from 'react-spring';
-import { isSuccessUsernameState, SuccessUsernameState, UsernameState } from '../../model';
-import { FullPageCover, Modal, TransitionWrapper, Welcome } from './username-modal.components';
+import React, { memo, useRef } from 'react';
+import { useTransition, useChain } from 'react-spring';
+import { SuccessUsernameState, UsernameState } from '../../model';
+import { AnimatedModal, AnimatedTransitionWrapper, FullPageCover, Welcome } from './username-modal.components';
 import { UsernameForm } from './username.form';
 
 interface Props {
   usernameState: UsernameState;
-  show: boolean;
+  isOpen: boolean;
   onSubmit(username: string): void;
 }
 
-export const UsernameModal: React.FunctionComponent<Props> = ({ onSubmit, usernameState, show }) => {
-  const modalTransition = useTransition(show, null, {
-    enter: { opacity: 1, transform: 'translateY(0)' },
-    from: { opacity: 0, transform: 'translateY(3.2rem)' },
-    leave: { opacity: 0, transform: 'translateY(3.2rem)' },
-    trail: 750,
+const visible = { opacity: 1, transform: 'translateY(0rem)' };
+const hideDown = { opacity: 0, transform: 'translateY(3.2rem)' };
+const hideUp = { opacity: 0, transform: 'translateY(-3.2rem)' };
+
+let UsernameModal: React.FunctionComponent<Props> = (props) => {
+  const { onSubmit, usernameState, isOpen } = props;
+  const modalTransitionRef = useRef() as React.RefObject<null>;
+  const modalTransition = useTransition(isOpen, null, {
+    ref: modalTransitionRef,
+    from: hideDown,
+    enter: visible,
+    leave: hideUp,
   });
-  const transitions = useTransition(isSuccessUsernameState(usernameState), null, {
-    initial: { opacity: 1, transform: 'translateY(0rem)' },
-    from: { opacity: 0, transform: 'translateY(3.2rem)' },
-    enter: { opacity: 1, transform: 'translateY(0rem)' },
-    leave: { opacity: 0, transform: 'translateY(-3.2rem)' },
+  const contentTransitionRef = useRef() as React.RefObject<null>;
+  const contentTransition = useTransition(isOpen, null, {
+    ref: contentTransitionRef,
+    initial: visible,
+    from: hideUp,
+    enter: visible,
+    leave: hideDown,
+    unique: true,
   } as any);
+
+  useChain(
+    isOpen
+      ? [modalTransitionRef, contentTransitionRef]
+      : [{ ...contentTransitionRef }, { ...modalTransitionRef }],
+    [0, isOpen ? 0.1 : 0.8],
+  );
 
   return (
     <>
-      {modalTransition.map(({ item: isMounted, key: mountedKey, props: mountedProps }) => (
-        isMounted && (
-          <FullPageCover key={mountedKey} style={mountedProps}>
-            <Modal>
+      {modalTransition.map(({ item: isModalOpen, key: modalKey, props: modalStyle }) => (
+        isModalOpen && (
+          <FullPageCover key={modalKey} style={modalStyle}>
+            <AnimatedModal>
               {
-                transitions.map(({ item: isSuccess, key, props }) =>
-                  isSuccess ?
-                    <TransitionWrapper key={key} style={props}>
-                      <Welcome key={key} style={props}>Hi there, {(usernameState as SuccessUsernameState).username} 👋</Welcome>
-                    </TransitionWrapper> :
-                    (
-                      <TransitionWrapper key={key} style={props}>
+                contentTransition.map(({ item: showForm, key: contentKey, props: contentStyle }) => (
+                  showForm
+                    ? (
+                      <AnimatedTransitionWrapper key={contentKey} style={contentStyle}>
                         <UsernameForm onSubmit={onSubmit} usernameState={usernameState} />
-                      </TransitionWrapper>
-                    ),
-                )
+                      </AnimatedTransitionWrapper>
+                    ) : (
+                      <AnimatedTransitionWrapper key={contentKey} style={contentStyle}>
+                        <Welcome>
+                          Hi there, {(usernameState as SuccessUsernameState).username} 👋
+                        </Welcome>
+                      </AnimatedTransitionWrapper>
+                    )
+                ))
               }
-            </Modal>
+            </AnimatedModal>
           </FullPageCover>
         )
       ))}
     </>
   );
 };
+
+UsernameModal = memo(UsernameModal);
+export { UsernameModal };

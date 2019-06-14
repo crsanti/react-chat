@@ -67,21 +67,4 @@ module.exports = merge(common, {
       workers: ForkTsCheckerWebpackPlugin.TWO_CPUS,
     }),
   ],
-  optimization: {
-    minimize: false,
-    runtimeChunk: {
-      name: 'vendor',
-    },
-    splitChunks: {
-      cacheGroups: {
-        default: false,
-        common: {
-          test: /node_modules/,
-          name: 'vendor',
-          chunks: 'initial',
-          minSize: 1,
-        },
-      },
-    },
-  },
 });
