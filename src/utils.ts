@@ -1,10 +1,20 @@
 import { always, compose, not, prop } from 'ramda';
 import isEmpty from 'ramda/es/isEmpty';
 
-type FormEvent = React.FormEvent<HTMLInputElement>;
+type ValidHTMLElement =
+  HTMLButtonElement
+  | HTMLDataElement
+  | HTMLInputElement
+  | HTMLOptionElement
+  | HTMLOutputElement
+  | HTMLParamElement
+  | HTMLSelectElement
+  | HTMLTextAreaElement;
+
+type FormEvent = React.SyntheticEvent<ValidHTMLElement>;
 type FormTarget = FormEvent['currentTarget'];
 type FormTargetValue = FormTarget['value'];
-export const getText = compose<FormEvent, FormTarget, FormTargetValue>(
+export const getValue = compose<FormEvent, FormTarget, FormTargetValue>(
   prop('value'),
   prop('currentTarget'),
 );

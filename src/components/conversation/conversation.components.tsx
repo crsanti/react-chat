@@ -7,6 +7,8 @@ export const Layout = styled.div`
 `;
 
 export const List = styled.ul`
+  flex-grow: 1;
+  overflow-y: auto;
   list-style: none;
   margin: 0;
   padding: 3.2rem 0 0;

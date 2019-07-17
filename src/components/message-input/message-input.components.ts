@@ -11,7 +11,9 @@ export const Layout = styled.div`
   width: 100%;
 `;
 
-const TextAreaCard = Card.withComponent(ResizableTextArea);
+// NOTE: Types from emotion are really a pain in the ass
+const TextAreaCard = Card.withComponent(ResizableTextArea) as any as typeof ResizableTextArea;
+
 export const TextArea = styled(TextAreaCard)`
   ${textBox}
   flex-grow: 1;

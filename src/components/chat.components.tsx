@@ -6,6 +6,6 @@ export const Layout = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  max-height: calc(100% - 3.2rem);
+  height: calc(100% - 3.2rem);
   padding: 0 6.4rem 3.2rem;
 `;

@@ -7,7 +7,7 @@ import { theme } from './theme';
 const App: React.FunctionComponent = () => {
   return (
     <ThemeProvider theme={theme}>
-      {GlobalStyles}
+      <GlobalStyles />
       <Chat />
     </ThemeProvider>
   );

@@ -19,13 +19,8 @@ const styles = css`
   html, body, #app {
     height: 100%;
   }
-
-  #app {
-    display: flex;
-    flex-direction: column;
-  }
 `;
 
-export const GlobalStyles = (
+export const GlobalStyles: React.FunctionComponent = () => (
   <Global styles={styles} />
 );

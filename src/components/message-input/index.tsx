@@ -4,13 +4,13 @@ import equals from 'ramda/es/equals';
 import isEmpty from 'ramda/es/isEmpty';
 import React, { useCallback } from 'react';
 import { useValue } from '../../hooks';
-import { getText } from '../../utils';
+import { getValue } from '../../utils';
 import { Layout, TextArea } from './message-input.components';
 
 const canSubmit = allPass([
   compose(equals('Enter'), prop('key')),
   compose(not, prop('shiftKey')),
-  compose(not, isEmpty, getText),
+  compose(not, isEmpty, getValue),
 ]);
 
 interface Props {
@@ -20,10 +20,10 @@ interface Props {
 
 export const MessageInput: React.FunctionComponent<Props> = ({ addMessage, disabled }) => {
   const { reset: emptyMessage, ...message } = useValue();
-  const onKeyPress = useCallback((event: React.KeyboardEvent<HTMLElement>) => {
+  const onKeyPress = useCallback((event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (canSubmit(event)) {
       event.preventDefault();
-      addMessage(getText(event));
+      addMessage(getValue(event));
       emptyMessage();
     }
   }, [addMessage]);
