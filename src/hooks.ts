@@ -1,13 +1,13 @@
-import { compose } from 'ramda';
+import { compose, unary } from 'ramda';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { getText, noop } from './utils';
+import { getValue, noop } from './utils';
 import defaultTo from 'ramda/es/defaultTo';
 
 type Reset = (value?: string) => void;
 export const useValue = (initialValue = '') => {
   const [value, setValue] = useState<string>(initialValue);
-  const onChange = useCallback(compose(setValue, getText), []);
-  const reset: Reset = useCallback(compose(setValue, defaultTo(initialValue)), []);
+  const onChange = useCallback(compose(setValue, getValue), []);
+  const reset: Reset = useCallback(unary(compose(setValue, defaultTo(initialValue))), []);
 
   return { value, onChange, reset };
 };
