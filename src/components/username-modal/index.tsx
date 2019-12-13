@@ -1,5 +1,5 @@
 import React, { memo, useRef } from 'react';
-import { useTransition, useChain } from 'react-spring';
+import { useTransition, useChain, ReactSpringHook } from 'react-spring';
 import { SuccessUsernameState, UsernameState } from '../../model';
 import { AnimatedModal, AnimatedTransitionWrapper, FullPageCover, Welcome } from './username-modal.components';
 import { UsernameForm } from './username.form';
@@ -16,14 +16,14 @@ const hideUp = { opacity: 0, transform: 'translateY(-3.2rem)' };
 
 let UsernameModal: React.FunctionComponent<Props> = (props) => {
   const { onSubmit, usernameState, isOpen } = props;
-  const modalTransitionRef = useRef() as React.RefObject<null>;
+  const modalTransitionRef = useRef() as React.RefObject<ReactSpringHook>;
   const modalTransition = useTransition(isOpen, null, {
     ref: modalTransitionRef,
     from: hideDown,
     enter: visible,
     leave: hideUp,
   });
-  const contentTransitionRef = useRef() as React.RefObject<null>;
+  const contentTransitionRef = useRef() as React.RefObject<ReactSpringHook>;
   const contentTransition = useTransition(isOpen, null, {
     ref: contentTransitionRef,
     initial: visible,
@@ -31,7 +31,7 @@ let UsernameModal: React.FunctionComponent<Props> = (props) => {
     enter: visible,
     leave: hideDown,
     unique: true,
-  } as any);
+  });
 
   useChain(
     isOpen

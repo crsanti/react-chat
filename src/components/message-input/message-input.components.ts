@@ -12,7 +12,7 @@ export const Layout = styled.div`
 `;
 
 // NOTE: Types from emotion are really a pain in the ass
-const TextAreaCard = Card.withComponent(ResizableTextArea) as any as typeof ResizableTextArea;
+const TextAreaCard: typeof ResizableTextArea = Card.withComponent(ResizableTextArea) as any;
 
 export const TextArea = styled(TextAreaCard)`
   ${textBox}
