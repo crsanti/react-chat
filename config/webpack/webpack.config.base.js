@@ -2,7 +2,7 @@ const merge = require('webpack-merge');
 const common = require('./webpack.config.common');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const WebappWebpackPlugin = require('webapp-webpack-plugin');
+const FaviconWebpackPlugin = require('favicons-webpack-plugin');
 const { resolveFromRootPath } = require('../helpers');
 
 module.exports = merge(common, {
@@ -32,7 +32,7 @@ module.exports = merge(common, {
     ],
   },
   plugins: [
-    new WebappWebpackPlugin({
+    new FaviconWebpackPlugin({
       logo: resolveFromRootPath('public', 'favicon', 'favicon.png'),
       emitStats: false,
       persistentCache: true,
