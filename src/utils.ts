@@ -1,4 +1,4 @@
-import { always, compose, not, prop } from 'ramda';
+import { always, assoc, compose, curry, keys, not, prop, reduce } from 'ramda';
 import isEmpty from 'ramda/es/isEmpty';
 
 type ValidHTMLElement =
@@ -7,7 +7,7 @@ type ValidHTMLElement =
   | HTMLInputElement
   | HTMLOptionElement
   | HTMLOutputElement
-  | HTMLParamElement
+  | HTMLParamElement
   | HTMLSelectElement
   | HTMLTextAreaElement;
 
@@ -25,3 +25,15 @@ export const isNotEmpty = compose(
 );
 
 export const noop = always(undefined);
+export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+type KeysMap<O extends object> = {
+  [K in keyof any]: keyof O
+};
+
+type MappedObj<O extends object, KM extends KeysMap<O>> = {
+  -readonly [K in keyof KM]: KM[K] extends keyof O ? O[KM[K]] : never;
+};
+type RenameKeys = <O extends object, KM extends KeysMap<O>>(keysMap: KM, obj: O) => MappedObj<O, KM>;
+export const renameKeys = curry((keysMap, obj) =>
+  reduce((acc, key) => assoc(keysMap[key] || key, obj[key], acc), {}, keys(obj)) as RenameKeys);

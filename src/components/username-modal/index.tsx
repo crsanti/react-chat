@@ -11,8 +11,8 @@ interface Props {
 }
 
 const visible = { opacity: 1, transform: 'translateY(0rem)' };
-const hideDown = { opacity: 0, transform: 'translateY(3.2rem)' };
-const hideUp = { opacity: 0, transform: 'translateY(-3.2rem)' };
+const hideDown = { opacity: 0, transform: 'translateY(2.4rem)' };
+const hideUp = { opacity: 0, transform: 'translateY(-2.4rem)' };
 
 let UsernameModal: React.FunctionComponent<Props> = (props) => {
   const { onSubmit, usernameState, isOpen } = props;
@@ -21,15 +21,15 @@ let UsernameModal: React.FunctionComponent<Props> = (props) => {
     ref: modalTransitionRef,
     from: hideDown,
     enter: visible,
-    leave: hideUp,
+    leave: hideDown,
   });
   const contentTransitionRef = useRef() as React.RefObject<ReactSpringHook>;
   const contentTransition = useTransition(isOpen, null, {
     ref: contentTransitionRef,
     initial: visible,
-    from: hideUp,
+    from: hideDown,
     enter: visible,
-    leave: hideDown,
+    leave: hideUp,
     unique: true,
   });
 

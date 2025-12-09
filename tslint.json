@@ -25,7 +25,6 @@
     "comment-format": [
       true,
       "check-space",
-      "check-uppercase",
       {
         "ignore-words": [
           "TODO",

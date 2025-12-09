@@ -28,6 +28,7 @@ const Modal = styled(Card)`
   max-width: 40rem;
   height: 16rem;
   position: relative;
+  padding: 3.2rem;
 `;
 
 export const AnimatedModal = animated(Modal);
